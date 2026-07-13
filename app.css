@@ -1,0 +1,1153 @@
+:root {
+  --t2-bg: rgba(255, 255, 255, 0.85);
+  --t2-text: #1f2229;
+  --t2-border: rgba(0, 0, 0, 0.08);
+  --t2-header-bg: #1f2229;
+  --t2-header-text: #ffffff;
+  --t2-card-bg: rgba(245, 245, 247, 0.5);
+  --t2-card-hover: rgba(235, 235, 240, 0.85);
+  --t2-accent: #0088ff;
+  --t2-shadow: -8px 0 32px rgba(0, 0, 0, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --t2-bg: rgba(20, 22, 28, 0.88);
+    --t2-text: #f0f2f5;
+    --t2-border: rgba(255, 255, 255, 0.08);
+    --t2-header-bg: #14161c;
+    --t2-header-text: #ffffff;
+    --t2-card-bg: rgba(255, 255, 255, 0.05);
+    --t2-card-hover: rgba(255, 255, 255, 0.09);
+    --t2-shadow: -8px 0 32px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.t2marketbot_tk * {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+.t2marketbot_tk {
+  width: 400px;
+  position: fixed;
+  margin: 0px auto;
+  top: 0;
+  right: 0;
+  background: var(--t2-bg);
+  z-index: 2000;
+  height: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-left: 1px solid var(--t2-border);
+  box-shadow: var(--t2-shadow);
+  color: var(--t2-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  transition: width 0.1s ease;
+}
+
+.lotVolume,
+.lotPrice,
+.lotUom {
+  width: 65px;
+  text-align: center;
+  border: 1px solid var(--t2-border);
+  padding: 4px;
+  background: var(--t2-bg);
+  color: var(--t2-text);
+  border-radius: 6px;
+  outline: none;
+  font-size: 13px;
+  transition: border-color 0.2s;
+}
+
+.lotVolume:focus,
+.lotPrice:focus,
+.lotUom:focus {
+  border-color: var(--t2-accent);
+}
+
+.allEmBlock {
+  text-align: center;
+  height: 30px;
+}
+
+.emButton {
+  width: 30px;
+  height: 30px;
+  background-size: 28px;
+  display: inline-block;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.emButtonDel {
+  height: 30px;
+  width: 30px;
+  background-size: 28px;
+  margin-left: 3px;
+  background-position: top center;
+}
+
+.selectedEmWrapper {
+  display: flex;
+}
+
+.selectedEmBlock {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 128px !important;
+  height: 36px !important;
+  background: var(--t2-card-bg);
+  border: 1px solid var(--t2-border);
+  border-radius: 18px;
+  padding: 0 10px;
+  box-sizing: border-box !important;
+}
+
+.element {
+  padding: 8px 12px;
+  background: transparent;
+  color: var(--t2-text);
+}
+
+.lotEmojis {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-size: 23px;
+  background-position: center;
+}
+
+.activeLot {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  background: var(--t2-card-bg);
+  border: 1px solid var(--t2-border);
+  border-radius: 8px;
+  margin: 6px 12px;
+  padding: 6px 8px;
+
+  transition: all 0.2s ease-in-out;
+}
+
+.activeLot:not(.soldLot):hover {
+  background: var(--t2-card-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.activeLot div {
+  margin-right: 8px;
+}
+
+.lotDate {
+  color: #8a8d99;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.lotsWrapper {
+  background: transparent;
+  overflow-y: auto;
+  text-align: center;
+  padding-bottom: 20px;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.lotsWrapper.loading {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.lotsWrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+.lotsWrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lotsWrapper::-webkit-scrollbar-thumb {
+  background: var(--t2-border);
+  border-radius: 3px;
+}
+
+.lotsWrapper::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lotMetaRightCol {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.activeLot:not(.soldLot):hover .lotMetaRightCol {
+  display: none;
+
+}
+
+.lotPremiumOpsBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background-color: rgba(40, 167, 69, 0.12);
+  border: 1px solid rgba(40, 167, 69, 0.25);
+  color: #28a745;
+  font-size: 12px;
+  font-weight: 700;
+  height: 26px !important;
+  width: 46px !important;
+  box-sizing: border-box !important;
+  border-radius: 6px;
+  line-height: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.lotPremiumOpsBadge .opsRocket {
+  font-size: 11px;
+  margin-top: -1px;
+}
+
+.lotPremiumOpsBadge .opsVal {
+  line-height: 1;
+}
+
+.lotPositionBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1f2229;
+  color: #fff;
+  border: 1px solid var(--t2-border);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0;
+  height: 26px !important;
+  width: 32px !important;
+  box-sizing: border-box !important;
+  border-radius: 6px;
+  line-height: normal;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+.lotPositionBadge.is-infinite {
+  font-size: 15px;
+  padding-bottom: 2px;
+  line-height: 1;
+}
+
+.editLotButton,
+.bumpLotButton,
+.delLotButton {
+  position: absolute;
+  top: 50%;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--t2-border) !important;
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t2-text);
+  font-size: 12px;
+  transform: translateY(-50%) scale(0.85);
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.15s, border-color 0.15s, box-shadow 0.15s !important;
+}
+
+.delLotButton {
+  right: 8px;
+  background-size: 14px;
+}
+
+.delLotButton:hover {
+  background-color: rgba(220, 53, 69, 0.2) !important;
+  border-color: rgba(220, 53, 69, 0.6) !important;
+  box-shadow: 0 0 8px rgba(220, 53, 69, 0.3);
+  transform: translateY(-52%) scale(1.08) !important;
+}
+
+.editLotButton {
+  right: 38px;
+  background-size: 14px;
+}
+
+.editLotButton:hover {
+  background-color: rgba(0, 136, 255, 0.2) !important;
+  border-color: rgba(0, 136, 255, 0.6) !important;
+  box-shadow: 0 0 8px rgba(0, 136, 255, 0.3);
+  transform: translateY(-52%) scale(1.08) !important;
+}
+
+.bumpLotButton {
+  right: 68px;
+}
+
+.bumpLotButton:hover {
+  background-color: rgba(40, 167, 69, 0.2) !important;
+  border-color: rgba(40, 167, 69, 0.6) !important;
+  box-shadow: 0 0 8px rgba(40, 167, 69, 0.3);
+  transform: translateY(-52%) scale(1.08) !important;
+}
+
+.activeLot:not(.soldLot):hover .delLotButton,
+.activeLot:not(.soldLot):hover .editLotButton,
+.activeLot:not(.soldLot):hover .bumpLotButton {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+.activeLot:not(.soldLot):hover .delLotButton.displayNone,
+.activeLot:not(.soldLot):hover .editLotButton.displayNone,
+.activeLot:not(.soldLot):hover .bumpLotButton.displayNone {
+  display: none !important;
+}
+
+.buttonsWrapper {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px 2px 12px;
+  width: 100%;
+}
+
+.buttonsWrapper button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--t2-border) !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 8px 10px !important;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out !important;
+  outline: none !important;
+}
+
+.buttonsWrapper .btn-primary-action {
+  background: linear-gradient(135deg, #28a745, #218838) !important;
+  color: #ffffff !important;
+  border-color: rgba(40, 167, 69, 0.4) !important;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2) !important;
+}
+
+.buttonsWrapper .btn-primary-action:hover {
+  background: linear-gradient(135deg, #218838, #1e7e34) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(40, 167, 69, 0.3) !important;
+}
+
+.buttonsWrapper .btn-danger-action {
+  background: rgba(220, 53, 69, 0.1) !important;
+  color: #dc3545 !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+.buttonsWrapper .btn-danger-action:hover {
+  background: rgba(220, 53, 69, 0.2) !important;
+  border-color: #dc3545 !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.2) !important;
+}
+
+.buttonsWrapper .btn-secondary-action {
+  background: var(--t2-card-bg) !important;
+  color: var(--t2-text) !important;
+}
+
+.buttonsWrapper .btn-secondary-action:hover {
+  background: var(--t2-card-hover) !important;
+  transform: translateY(-1px);
+}
+
+.headerLoader {
+  width: 12px;
+  height: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--t2-accent);
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  animation: spin 0.8s linear infinite;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.headerLoader.active {
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.t2marketbot_tk.is-loading .myBtn,
+.t2marketbot_tk.is-loading .editLotButton,
+.t2marketbot_tk.is-loading .bumpLotButton,
+.t2marketbot_tk.is-loading .delLotButton,
+.t2marketbot_tk.is-loading .quickVolBtn {
+  pointer-events: none !important;
+}
+
+.element .myBtn {
+  padding: 5px 10px;
+  margin: 0;
+  font-size: 14px;
+  min-width: 115px;
+}
+
+.appWindowsHeader {
+  display: flex;
+  background-color: var(--t2-header-bg) !important;
+  color: var(--t2-header-text) !important;
+  align-items: center;
+  padding: 8px 10px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--t2-border);
+}
+
+.phoneNumBoxWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.phoneNumberBlock {
+  color: #ffffff !important;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.restsBlock {
+  display: flex;
+  gap: 4px;
+  justify-content: flex-end;
+  align-items: center;
+  flex-grow: 3;
+  margin-right: 6px;
+  overflow: hidden;
+  flex-shrink: 1;
+}
+
+.closeButton {
+  display: inline-block;
+  background: linear-gradient(#fff, #fff), linear-gradient(#fff, #fff), transparent;
+  transform: rotate(45deg);
+  background-size: 70% 2px, 2px 70%;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #b33;
+  border-radius: 50%;
+  transition: all 0.2s;
+  z-index: 122222;
+}
+
+.closeButton:hover {
+  background-color: #d44;
+  transform: rotate(135deg);
+}
+
+.showBlockButton {
+  width: 47px;
+  height: 47px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  background-size: contain;
+  z-index: 2001;
+  cursor: pointer;
+}
+
+.msgBoxWrapper {
+  position: absolute !important;
+  top: 48px !important;
+  left: 12px !important;
+  right: 12px !important;
+  z-index: 2100 !important;
+  background: rgba(31, 34, 41, 0.95) !important;
+  border: 1px solid var(--t2-border) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+  text-align: center !important;
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.msgBoxWrapper.displayNone {
+  display: block !important;
+  transform: translateY(-8px) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.msgBox {
+  color: #da2525;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.soldLot {
+  background: rgba(31, 177, 65, 0.06) !important;
+  border-color: rgba(31, 177, 65, 0.2) !important;
+  opacity: 0.85;
+}
+
+.soldLot p {
+  font-weight: 700;
+  margin: 0;
+  margin-left: 5px;
+  font-size: 12px;
+  color: #1fb141;
+}
+
+.arrowDownSVG {
+  background-size: 11px;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: rotate(180deg);
+}
+
+.r180 {
+  transform: none;
+}
+
+.phoneNumBoxWrapper {
+  position: relative;
+  padding-left: 3px;
+}
+
+.phoneNumBoxArrow {
+  position: absolute;
+  right: -20px;
+  top: 0px;
+  width: 20px;
+  height: 22px;
+  cursor: pointer;
+}
+
+.phoneNumBoxSelect {
+  position: absolute;
+  top: 25px;
+  left: 0;
+  z-index: 1;
+  background: #777;
+  max-height: 300px;
+  overflow-y: auto;
+  min-width: 200px;
+  overflow-x: hidden;
+}
+
+.phoneNumBoxOption {
+  display: inline-block;
+  white-space: nowrap;
+  padding: 8px 3px;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid #444;
+  cursor: pointer;
+}
+
+.phoneNumBoxOption:hover {
+  background: #2e46a4;
+}
+
+.elementsWrapper {
+  width: 400px;
+  margin: 0 auto;
+}
+
+
+.lotPositionAnimation {
+  animation: positionAnimation 1s linear infinite;
+}
+
+@keyframes positionAnimation {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.disable-select {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.displayNone {
+  display: none;
+}
+
+.visibilityHidden {
+  visibility: hidden;
+}
+
+.lotExpiration {
+  color: #ff6600;
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.soldTimeText {
+  color: #1fb141 !important;
+}
+
+.quickVolBtn {
+  flex: 1;
+  font-size: 10px !important;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--t2-card-bg) !important;
+  color: var(--t2-text) !important;
+  border: 1px solid var(--t2-border) !important;
+  border-radius: 6px !important;
+  cursor: pointer;
+  font-weight: 700 !important;
+  transition: all 0.15s ease-in-out !important;
+  box-sizing: border-box !important;
+  line-height: 1 !important;
+}
+
+.quickVolBtn:hover {
+  background-color: var(--t2-card-hover) !important;
+  border-color: var(--t2-accent) !important;
+  transform: translateY(-1px) !important;
+}
+
+.lotCardBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+  padding-right: 95px;
+
+}
+
+.lotCardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.lotHeaderRow {
+  font-size: 11px;
+  color: #8a8d99;
+}
+
+.lotDateText {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 195px;
+  flex-shrink: 0;
+
+}
+
+.lotMetaRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lotDataRow {
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.lotStats {
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.lotEmojisContainer {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.lotSeller {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--t2-text);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: right;
+  max-width: 110px;
+  flex-shrink: 1;
+
+  min-width: 0;
+  margin-left: 12px;
+
+}
+
+.soldLabel {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #1fb141;
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: 0 2px 6px rgba(31, 177, 65, 0.2);
+}
+
+.lotPremiumOps {
+  color: #28a745;
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+
+.elementsWrapper input[type="number"],
+.elementsWrapper select {
+  background: var(--t2-card-bg) !important;
+  color: var(--t2-text) !important;
+  border: 1px solid var(--t2-border) !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  font-size: 13px !important;
+  outline: none !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+.elementsWrapper input[type="number"]:focus,
+.elementsWrapper select:focus {
+  border-color: var(--t2-accent) !important;
+  box-shadow: 0 0 0 2px rgba(0, 136, 255, 0.2) !important;
+}
+
+.elementsWrapper input[type="number"] {
+  width: 70px !important;
+  text-align: center !important;
+}
+
+
+.elementsWrapper input[type="number"]::-webkit-inner-spin-button,
+.elementsWrapper input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.elementsWrapper select {
+  width: 78px !important;
+  cursor: pointer !important;
+  padding-right: 28px !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOGE4ZDk5IiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PHBvbHlsaW5lIHBvaW50cz0iNiA5IDEyIDE1IDE4IDkiPjwvcG9seWxpbmU+PC9zdmc+") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 8px center !important;
+  background-size: 14px !important;
+}
+
+.elementsWrapper select option {
+  background-color: var(--t2-header-bg) !important;
+  color: var(--t2-text) !important;
+}
+
+.elementsWrapper label {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--t2-text);
+  user-select: none;
+}
+
+.elementsWrapper input[type="checkbox"] {
+  accent-color: var(--t2-accent) !important;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.restChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 20px;
+  border: 1px solid var(--t2-border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.chipIcon {
+  font-size: 10px;
+}
+
+.chipMin {
+  background-color: rgba(0, 136, 255, 0.12);
+  border-color: rgba(0, 136, 255, 0.25);
+  color: #0088ff;
+}
+
+.chipGb {
+  background-color: rgba(40, 167, 69, 0.12);
+  border-color: rgba(40, 167, 69, 0.25);
+  color: #28a745;
+}
+
+.chipSms {
+  background-color: rgba(136, 76, 255, 0.12);
+  border-color: rgba(136, 76, 255, 0.25);
+  color: #884cff;
+}
+
+.trafficBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: normal;
+  vertical-align: middle;
+  margin-top: -2px;
+}
+
+.badgeGb {
+  background-color: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.25);
+}
+
+.badgeMin {
+  background-color: rgba(0, 136, 255, 0.15);
+  color: #0088ff;
+  border: 1px solid rgba(0, 136, 255, 0.25);
+}
+
+.badgeSms {
+  background-color: rgba(136, 76, 255, 0.15);
+  color: #884cff;
+  border: 1px solid rgba(136, 76, 255, 0.25);
+}
+
+.lotPriceHighlight {
+  color: #28a745;
+  font-weight: 700;
+}
+
+.allEmBlock {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+}
+
+
+
+.selectedEmWrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.selectedEmBlock {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  width: 128px !important;
+  height: 36px !important;
+  background: var(--t2-card-bg);
+  border: 1px solid var(--t2-border);
+  border-radius: 18px;
+  padding: 0 10px;
+  box-sizing: border-box !important;
+}
+
+.emButton {
+  transition: transform 0.1s ease-in-out;
+}
+
+.emButton:hover {
+  transform: scale(1.15);
+}
+
+.resetStatsBtn {
+  background: transparent !important;
+  border: none !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  font-size: 15px !important;
+  color: #8a8d99 !important;
+  transition: all 0.2s ease-in-out !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.resetStatsBtn:hover {
+  color: #dc3545 !important;
+  transform: scale(1.2);
+}
+
+
+.lotsTabHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+  background: transparent;
+}
+
+.lotsTab {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  padding: 8px 0;
+  color: #6c707c;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin-top: -1px;
+  /* Blends with top divider */
+  border-top: 1.5px solid transparent;
+}
+
+/* Margins on the outer edges to match the 12px activeLot margin */
+.lotsTab[data-tab="all"] {
+  margin-left: 12px;
+}
+
+.lotsTab[data-tab="bought"] {
+  margin-right: 12px;
+}
+
+.lotsTab:hover {
+  color: var(--t2-text);
+}
+
+.lotsTab.active {
+  color: var(--t2-accent) !important;
+  background: rgba(0, 136, 255, 0.04) !important;
+  border-top-color: var(--t2-accent) !important;
+}
+
+/* Lot Lift Limit Styles */
+.bumpLotButton.limitReached {
+  opacity: 0.4 !important;
+  cursor: not-allowed !important;
+  background-color: rgba(220, 53, 69, 0.1) !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+.bumpLotButton.limitReached:hover {
+  background-color: rgba(220, 53, 69, 0.1) !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+}
+
+/* Custom Styled Checkboxes */
+.customCheckboxContainer {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8a8d99;
+  user-select: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.customCheckboxContainer:hover {
+  color: var(--t2-text);
+}
+
+.customCheckboxContainer input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.customCheckbox {
+  width: 14px;
+  height: 14px;
+  background-color: var(--t2-card-bg);
+  border: 1px solid var(--t2-border);
+  border-radius: 4px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.15s ease-in-out;
+  flex-shrink: 0;
+}
+
+.customCheckboxContainer:hover .customCheckbox {
+  border-color: var(--t2-accent);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.customCheckboxContainer input:checked~.customCheckbox {
+  background-color: var(--t2-accent);
+  border-color: var(--t2-accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 9px 9px;
+}
+
+/* Animations and Transitions */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lotsWrapper:not(.loading) .activeLot {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.lotsWrapper:not(.loading) .activeLot:nth-child(1) { animation-delay: 0.00s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(2) { animation-delay: 0.04s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(3) { animation-delay: 0.08s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(4) { animation-delay: 0.12s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(5) { animation-delay: 0.16s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(6) { animation-delay: 0.20s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(7) { animation-delay: 0.24s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(8) { animation-delay: 0.28s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(9) { animation-delay: 0.32s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(10) { animation-delay: 0.36s; }
+.lotsWrapper:not(.loading) .activeLot:nth-child(n+11) { animation-delay: 0.40s; }
+
+@keyframes slideDown {
+  from {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    transform: scaleY(0.9);
+  }
+  to {
+    max-height: 120px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.activeLot.newly-added {
+  animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    max-height: 120px;
+    opacity: 1;
+    transform: scaleY(1);
+  }
+  to {
+    max-height: 0;
+    opacity: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    transform: scaleY(0.9);
+  }
+}
+
+.activeLot.removing {
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow: hidden;
+  pointer-events: none;
+}

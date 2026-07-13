@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "T2 Market Assistant",
+  "version": "1.0.0",
+  "description": "Удобный торговый терминал и автоматизация для биржи Маркета t2.",
+  "action": {
+    "default_icon": "icon.png",
+    "default_title": "T2 Market Assistant"
+  },
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.t2.ru/*"
+      ],
+      "js": ["jquery-3.3.1.min.js", "content.js"],
+      "css": ["app.css", "svg.css"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["icon.png"],
+      "matches": ["https://*.t2.ru/*"]
+    }
+  ]
+}
