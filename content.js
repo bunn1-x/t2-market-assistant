@@ -548,6 +548,7 @@ class t2marketbot_tk {
         },
         beforeSend: function (data) {
           this_.setBusy(true);
+          $('.lotsWrapper').addClass('loading');
         },
         success: function (data_f) {
           if (data_f.meta.status == 'OK') {
@@ -606,6 +607,7 @@ class t2marketbot_tk {
         },
         complete: function () {
           this_.setBusy(false);
+          $('.lotsWrapper').removeClass('loading');
         },
     });
     
@@ -1074,11 +1076,9 @@ class t2marketbot_tk {
     if (this.busyCount > 0) {
       $('.headerLoader').addClass('active');
       $('.t2marketbot_tk').addClass('is-loading');
-      $('.lotsWrapper').addClass('loading');
     } else {
       $('.headerLoader').removeClass('active');
       $('.t2marketbot_tk').removeClass('is-loading');
-      $('.lotsWrapper').removeClass('loading');
     }
   }
   
